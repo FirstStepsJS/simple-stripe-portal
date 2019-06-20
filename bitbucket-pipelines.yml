@@ -1,0 +1,36 @@
+image: docker:stable
+
+options:
+  docker: true
+  size: 2x
+  max-time: 2
+
+clone:
+  lfs: false
+
+pipelines:
+  branches:
+    '{dev,staging}':
+      - step:
+          name: Build to EC2
+          image:
+            name: 755399320166.dkr.ecr.eu-west-1.amazonaws.com/build/nginx-php7.2
+            aws:
+              access-key: $AWS_ACCESS_KEY_ID
+              secret-key: $AWS_SECRET_ACCESS_KEY
+          script:
+            - yarn install
+            - yarn upgrade
+            - rsync -rvz $BITBUCKET_CLONE_DIR/* ec2-user@34.250.141.147:/nat/rsync_dev 
+
+    '{master}':
+      - step:
+          name: Build to EC2
+          image:
+            name: 755399320166.dkr.ecr.eu-west-1.amazonaws.com/build/nginx-php7.2
+            aws:
+              access-key: $AWS_ACCESS_KEY_ID
+              secret-key: $AWS_SECRET_ACCESS_KEY
+          script:
+            - ssh -oStrictHostKeyChecking=no -v ec2-user@34.250.141.147 whoami
+            - rsync -rvz $BITBUCKET_CLONE_DIR/* ec2-user@34.250.141.147:/nat/rsync_prod
