@@ -104,7 +104,14 @@
                     </div>
                 </div>
                 <div class='row'>
-                    <div class='col-md-12'>
+                    <div class="col-md-3">
+                        <select autocomplete='off' class='form-control'
+                                name="currency" data-name="prod" id="currency">
+                            <option selected="selected" value="USD" data-text="$" data-img_src="{{ asset('images/United-States.ico') }}"></option>
+                            <option value="GBP" data-text="£" data-img_src="{{ asset('images/United-Kingdom.ico') }}"></option>
+                        </select>
+                    </div>
+                    <div class='col-md-9'>
                         <input
                                 autocomplete='off' class='form-control' placeholder="Amount" size='20'
                                 type='text' name="amount">
@@ -123,7 +130,28 @@
     <script>
         $(document).ready(function() {
             $('.js-multiple').select2();
+            $('#currency').select2(options);
+            $(' .select2-selection--single').css({'height': '37px'});
         });
+        function custom_template(obj){
+            var data = $(obj.element).data();
+            //var text = $(obj.element).text();
+            if(data && data['img_src'] && data['text']){
+                img_src = data['img_src'];
+                text = data['text'];
+                template = $("<div><img src=\"" + img_src + "\" style=\"width:40%;height:33px;\"/><p style=\"font-weight: 500;font-size:10pt;text-align:center;\">" + "</p></div>");
+                return template;
+            }
+        }
+        var options = {
+            'templateSelection': custom_template,
+            'templateResult': custom_template,
+            'minimumResultsForSearch': 20,
+            'closeOnSelect': true,
+        }
+
+
+
     </script>
 
 </body>

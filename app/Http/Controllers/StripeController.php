@@ -36,6 +36,7 @@ class StripeController extends Controller
             'receipt_email' => 'required',
             'product' => 'required',
             'name' => 'required',
+            'currency' => 'required'
         ]);
         $input = $request->all();
         $products = implode(', ',$input['product']);
@@ -55,7 +56,7 @@ class StripeController extends Controller
             }
             $charge = $stripe->charges()->create([
                 'card' => $token['id'],
-                'currency' => 'USD',
+                'currency' => $input['currency'],
                 //"source" => $token,
                 'amount'   => $input['amount'],
                 'description' => implode(' - ', [$input['name'], $input['receipt_email'], $products]),
