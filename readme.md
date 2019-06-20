@@ -87,8 +87,30 @@ And you're pretty much there, just run the below and go to your browser to see i
 php artisan serve
 ```
 
+## Customisation
+App.css contains all styling for the application, you can alter colours of the hover effect and success checkmark to match your branding.
+
+To replace the header logo simply replace the logo.png file in 
+```bash 
+stripe-portal/public/images/logo.png
+```
 ## To do
 
-Implement authentication layer for logging (Commissions etc)
+* Implement authentication layer for logging (Commissions etc)
+* Implement "stepped" payment process
+* Create styled return of exceptions
+* Establish API routes and build webhooks for db integrations
+* Once stepped process is complete update controller to first call stripe and create customer 
+then file charge against said customer account
+* Implement breakpoints etc for mobile responsiveness.
+* Add currency select drop down.
 
+### Potential future for this project
+Whilst it's just a simple payment portal now, most likely useful for small sales teams, i'd like to contribute to this
+over the coming year and there's number of much bigger features i'm interested in working on.
+1. Build out as progressive webapp for mobile vendors.
+2. Potential rebuild with python libraries for security and speed.
+3. Use Stripes new "connect" integration libraries to implement card reader support.
+4. Implement API to generate local payment dashboard for monitoring performance (Potentially use data 
+libraries for python) and trends. This could be useful when using sales team.
 
